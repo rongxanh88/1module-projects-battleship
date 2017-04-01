@@ -1,4 +1,4 @@
-require '../lib/comm'
+require './lib/comm'
 
 class BattleShip
   include Communication
@@ -15,7 +15,7 @@ class BattleShip
     when "p"
       #enter ship layout
     when "i"
-      #print instructions to screen, then return to start_game_sequence
+      show_game_instructions
     when "q"
       abort("Left the game.")
     else
@@ -25,4 +25,4 @@ class BattleShip
   end
 end
 
-new_game = BattleShip.new
+#new_game = BattleShip.new
