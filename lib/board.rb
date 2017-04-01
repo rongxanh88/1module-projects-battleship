@@ -29,39 +29,23 @@ class Board
   #   locations
   # end
 
-  def find_neighbor_indexes(target="", row_index, col_index)
+  def find_neighbors(target="", row_index, col_index)
     neighbors = []
     board.each_with_index do |row, y_index|
-      # row.each_with_index do |element, x_index|
-      #   if ((y_index - row_index).abs <= 1) and ((x_index - col_index).abs <= 1)
-      #     if (y_index == row_index) and (x_index == col_index)
-      #       #do nothing
-      #     elsif element == target
-      #       neighbors << [y_index, x_index]
-      #     end
-      #   end
-      # end
-      neighbors << find_neighbors_each_row(row, y_index)
-    end
-    neighbors.size
-  end
-
-  private
-
-  def find_neighbors_each_row(row, y_index)
-    neighbors = []
-    row.each_with_index do |element, x_index|
-      if ((y_index - row_index).abs <= 1) and ((x_index - col_index).abs <= 1)
-        if (y_index == row_index) and (x_index == col_index)
-          #do nothing
-        elsif element == target
-          neighbors << [y_index, x_index]
+      row.each_with_index do |element, x_index|
+        if ((y_index - row_index).abs <= 1) and ((x_index - col_index).abs <= 1)
+          if (y_index == row_index) and (x_index == col_index)
+            #do nothing
+          elsif element == target
+            neighbors << [y_index, x_index]
+          end
         end
       end
     end
     neighbors
   end
-  
 
+  private
+  
   
 end
