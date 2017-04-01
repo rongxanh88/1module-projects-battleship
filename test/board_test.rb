@@ -7,5 +7,5 @@ class BoardTest < Minitest::Test
     player_board = Board.new(5)
     assert_instance_of Board, player_board
   end
-  #binding.pry
+  # binding.pry
 end
