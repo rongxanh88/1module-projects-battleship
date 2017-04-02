@@ -8,6 +8,7 @@ class BattleShip
   end
 
   def start_game_sequence
+    double_space
     main_menu_prompt
     answer = gets.chomp
 
@@ -15,7 +16,12 @@ class BattleShip
     when "p"
       #enter ship layout
     when "i"
-      show_game_instructions
+      go_back = "a"
+      while go_back != "b"
+        show_game_instructions
+        go_back = gets.chomp
+      end
+      start_game_sequence
     when "q"
       abort("Left the game.")
     else

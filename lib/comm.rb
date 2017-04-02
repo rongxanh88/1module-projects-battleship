@@ -19,6 +19,8 @@ module Communication
     "to hit and sink the opponent's ships, wins. Firing coordinates are\n" +
     "labeled by their columns, from 1 to n. Rows are labeled by letter from\n" +
     "the letter 'A'. Good luck, and may the best navy win!"
+    double_space
+    puts "Go (b)ack"
   end
 
   def double_space
