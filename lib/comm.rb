@@ -22,11 +22,15 @@ module Communication
     double_space
     puts "Go (b)ack"
   end
-
+  
+  def computer_placed_ships
+    double_space
+    puts "The computer has placed the ships on the board."
+    double_space
+  end
+  
   def double_space
     puts "\n\n"
   end
-  
-  
   
 end
