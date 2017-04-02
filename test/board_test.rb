@@ -39,5 +39,28 @@ class BoardTest < Minitest::Test
     assert col_index < board.size
   end
   
+  def test_grab_random_empty_space
+    board = Board.new(5)
+    row, col = board.grab_random_empty_space 
+    assert row > 0
+    assert row < board.size
+    assert col > 0
+    assert col < board.size
+    assert_equal " ", board.get_element(row, col)
+  end
+
+  def test_get_random_direction
+    board = Board.new(5)
+    rand_dir = board.direction.to_a.sample(1).to_h
+  end
+  
+  def test_zip_start_square_and_direction
+    board = Board.new(5)
+    dir_value = board.direction["N"]
+    start = [1,1]
+    result = start.zip(dir_value).map{|arr| arr.inject(:+)}
+    assert_equal [0,1], result
+  end
+  
   # binding.pry
 end

@@ -1,8 +1,12 @@
 class Board
   attr_accessor :board
+  attr_reader :direction
   def initialize(size)
     matrix = Array.new(size) {|row| Array.new(size) {|element| element = " "}}
     @board = matrix
+    @direction = {
+      "N" => [-1,0], "E" => [0, 1], "S" => [1, 0], "W" => [0, -1]
+    }
   end
 
   def size
@@ -17,49 +21,41 @@ class Board
     board[row_index][col_index] = element
   end
 
-  # def find_empty_space(ship_length)
-  #   ship_space = []
-  #   target = " "
-  #   random_row = get_random_board_digit
-  #   random_col = get_random_board_digit
+  def find_empty_space(ship_length)
+    ship_space = []
+    row, col = grab_random_empty_space
 
-  #   while (board[random_row][random_col] != target) do
-  #     random_row = get_random_board_digit
-  #     random_col = get_random_board_digit
-  #   end
+    board[row][col] = "flagged"
+    ship_space << [row, col]
+    ship_length -= 1
+    ship_space << find_empty_neighbors(row, col, ship_length)
+  end
 
-  #   board[random_row][random_col] = "flagged"
-  #   ship_space << [random_row, random_col]
-  #   ship_length -= 1
-  #   ship_space << find_empty_neighbors(random_row, random_col, ship_length)
-  # end
+  def grab_random_empty_space
+    random_row = get_random_board_digit
+    random_col = get_random_board_digit
+
+    while (board[random_row][random_col] != " ") do
+      random_row = get_random_board_digit
+      random_col = get_random_board_digit
+    end
+    return random_row, random_col
+  end
+  
 
   def get_random_board_digit
     return Random.rand(1...board.size)
   end
 
-  # def find_empty_neighbors(first_index, second_index, ship_length)
-  #   return if ship_length == 0
-  #   neighbor = []
-  #   target = " "
+  def find_empty_neighbors(first_index, second_index, ship_length)
+    return if ship_length == 0
+    neighbor = []
+    target = " "
+    start = [first_index, second_index]
 
-  #   board.each_with_index do |row, row_index|
-  #     row.each_with_index do |space, col_index|
-  #       if (first_index == row_index) and
-  #         ((col_index - second_index).abs <= 1) and
-  #         space == target
-  #           neighbors << [row_index, col_index]
-  #           space == "flagged"
-  #       elsif (col_index == second_index) and
-  #         (row_index - first_index).abs <= 1) and
-  #         space == target
-  #           neighbors << [row_index, col_index]
-  #           space == "flagged"
-  #       end
-  #     end
-  #   end
-  #   return neighbors << 
-  # end
+    rand_dir = direction.to_a.sample(1).to_h
+    adjacent = start.zip(rand_dir.value).map{|arr| arr.inject(:+)}
+  end
   
   
   # def find_live_cells
