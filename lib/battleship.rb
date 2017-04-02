@@ -3,7 +3,10 @@ require './lib/comm'
 class BattleShip
   include Communication
 
+  attr_reader :difficulty
+
   def initialize
+    @difficulty = "easy"
     start_game_sequence
   end
 
@@ -14,7 +17,7 @@ class BattleShip
 
     case answer
     when "p"
-      #enter ship layout
+      #select_difficulty
     when "i"
       go_back = "a"
       while go_back != "b"
