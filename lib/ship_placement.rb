@@ -25,11 +25,10 @@ class ShipPlacement
   
   def place_ships
     ships.each do |ship|
-      empty_space = board.find_empty_space
+      empty_space = board.find_empty_space(ship.size)
       randomly_choose(empty_space)
       place(ship)
     end
-    
   end
   
 end

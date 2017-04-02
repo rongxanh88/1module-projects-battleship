@@ -18,8 +18,7 @@ class BattleShip
     case answer
     when "p"
       #select_difficulty
-      place_player_ships
-      @computer_ships = place_computer_ships
+      place_computer_ships
     when "i"
       go_back = "a"
       while go_back != "b"
