@@ -1,9 +1,8 @@
 class Board
-  attr_accessor :board, :empty_spaces
+  attr_accessor :board
   def initialize(size)
     matrix = Array.new(size) {|row| Array.new(size) {|element| element = " "}}
     @board = matrix
-    @empty_spaces = []
   end
 
   def size
@@ -18,46 +17,49 @@ class Board
     board[row_index][col_index] = element
   end
 
-  def find_empty_space(ship_length)
-    empty_spaces.clear
-    ship_space = []
+  # def find_empty_space(ship_length)
+  #   ship_space = []
+  #   target = " "
+  #   random_row = get_random_board_digit
+  #   random_col = get_random_board_digit
 
-    board.each_with_index do |row, row_index|
-      row.each_with_index do |space, col_index|
-        if space == " "
-          #board[row_index, col_index] = "flagged"
-          space = "flagged"
-          ship_space << [row_index, col_index] #first empty space
-          ship_length -= 1
-          find_empty_neighbors(row_index, col_index, ship_length)
-        end
-      end
-    end
-    @empty_spaces
-  end
-  
-  def find_empty_neighbors(first_index, second_index, ship_length)
-    return if ship_length == 0
-    neighbors = []
-    target = " "
+  #   while (board[random_row][random_col] != target) do
+  #     random_row = get_random_board_digit
+  #     random_col = get_random_board_digit
+  #   end
 
-    board.each_with_index do |row, row_index|
-      row.each_with_index do |space, col_index|
-        if (first_index == row_index) and
-          ((col_index - second_index).abs <= 1) and
-          space == target
-            neighbors << [row_index, col_index]
-            space == "flagged"
-        elsif (col_index == second_index) and
-          (row_index - first_index).abs <= 1) and
-          space == target
-            neighbors << [row_index, col_index]
-            space == "flagged"
-        end
-      end
-    end
-    
+  #   board[random_row][random_col] = "flagged"
+  #   ship_space << [random_row, random_col]
+  #   ship_length -= 1
+  #   ship_space << find_empty_neighbors(random_row, random_col, ship_length)
+  # end
+
+  def get_random_board_digit
+    return Random.rand(1...board.size)
   end
+
+  # def find_empty_neighbors(first_index, second_index, ship_length)
+  #   return if ship_length == 0
+  #   neighbor = []
+  #   target = " "
+
+  #   board.each_with_index do |row, row_index|
+  #     row.each_with_index do |space, col_index|
+  #       if (first_index == row_index) and
+  #         ((col_index - second_index).abs <= 1) and
+  #         space == target
+  #           neighbors << [row_index, col_index]
+  #           space == "flagged"
+  #       elsif (col_index == second_index) and
+  #         (row_index - first_index).abs <= 1) and
+  #         space == target
+  #           neighbors << [row_index, col_index]
+  #           space == "flagged"
+  #       end
+  #     end
+  #   end
+  #   return neighbors << 
+  # end
   
   
   # def find_live_cells
@@ -87,8 +89,4 @@ class Board
   #   end
   #   neighbors
   # end
-
-  private
-  
-  
 end

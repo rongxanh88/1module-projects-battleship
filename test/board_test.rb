@@ -20,6 +20,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_get_neighbors_with_hit
+    skip
     board = Board.new(5)
     board.set_element(0,0, "hit")
     board.set_element(0,2, "hit")
@@ -27,6 +28,16 @@ class BoardTest < Minitest::Test
     assert_equal expected, board.find_neighbors("hit", 0, 1)
   end
   
+  def test_get_random_board_location
+    board = Board.new(5)
+    row_index = board.get_random_board_digit
+    col_index = board.get_random_board_digit
+
+    assert row_index > 0
+    assert row_index < board.size
+    assert col_index > 0
+    assert col_index < board.size
+  end
   
   # binding.pry
 end
