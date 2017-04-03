@@ -4,7 +4,7 @@ require 'pry'
 
 class BattleShip
   include Communication
-  attr_reader :difficulty, :computer_board
+  attr_reader :difficulty, :computer_board, :player_board
 
   def initialize
     @difficulty = "b"
@@ -47,7 +47,7 @@ class BattleShip
   def place_player_ships
     player = ShipPlacement.new(difficulty)
     player_place_ships_message(difficulty)
-    player.select_ship_placement
+    @player_board = player.select_ship_placement
   end
   
   def place_computer_ships

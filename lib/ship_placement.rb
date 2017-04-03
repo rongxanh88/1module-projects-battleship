@@ -71,6 +71,7 @@ class ShipPlacement
         redo
       end
     end
+    return board
   end
 
   def validate_coordinates(coordinates, ship_length)
