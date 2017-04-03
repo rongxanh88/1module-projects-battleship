@@ -23,6 +23,15 @@ module Communication
     puts "Go (b)ack"
   end
   
+  def select_difficulty
+    double_space
+    puts "Please select difficulty setting."
+    double_space
+    puts "(b)eginner, (i)ntermediate, (a)dvanced"
+    double_space
+  end
+  
+
   def computer_placed_ships
     double_space
     puts "The computer has placed the ships on the board."

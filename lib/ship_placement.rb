@@ -12,14 +12,24 @@ class ShipPlacement
   end
   
   def generate_board
-    @board = Board.new(5) #easy 4x4 grid
+    case difficulty
+    when "beginner"
+      @board = Board.new(4)
+    when "intermediate"
+      @board = Board.new(8)
+    when "advanced"
+      @board = Board.new(12)
+    end
   end
 
   def generate_ships
     case difficulty
     when "beginner"
-      #makes a 2 unit and 3 unit boat
       @ships = [2,3]
+    when "intermediate"
+      @ships = [2,3,4]
+    when "advanced"
+      @ships = [2,3,4,5]
     end
   end
   

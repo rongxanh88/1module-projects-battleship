@@ -2,8 +2,7 @@ require './lib/comm'
 
 class BattleShip
   include Communication
-
-  attr_reader :difficulty, :player_board, :computer_ships
+  attr_reader :difficulty
 
   def initialize
     @difficulty = "beginner"
@@ -17,15 +16,9 @@ class BattleShip
 
     case answer
     when "p"
-      #select_difficulty
-      place_computer_ships
+      play_game
     when "i"
-      go_back = "a"
-      while go_back != "b"
-        show_game_instructions
-        go_back = gets.chomp
-      end
-      start_game_sequence
+      instructions
     when "q"
       abort("Left the game.")
     else
@@ -34,6 +27,20 @@ class BattleShip
     end
   end
 
+  def play_game
+    get_difficulty
+    place_computer_ships
+  end
+  
+  def instructions 
+    go_back = "a"
+    while go_back != "b"
+      show_game_instructions
+      go_back = gets.chomp
+    end
+    start_game_sequence
+  end
+  
   # def place_player_ships
   #   player = ShipPlacement.new(difficulty)
   #   player.place_ships
@@ -44,7 +51,14 @@ class BattleShip
   #   computer.place_ships
   # end
   
-
+  def get_difficulty
+    select_difficulty
+    answer = ""
+    while answer != ("b" or "i" or "a") do
+      answer = gets.chomp
+    end
+    @difficulty = answer
+  end
 end
 
 #new_game = BattleShip.new

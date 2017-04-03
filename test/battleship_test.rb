@@ -7,4 +7,9 @@ class BattleshipTest < Minitest::Test
     assert_instance_of BattleShip, game
   end
   
+  def test_get_difficulty
+    game = BattleShip.new
+    assert_equal "beginner", game.difficulty
+  end
+  
 end
