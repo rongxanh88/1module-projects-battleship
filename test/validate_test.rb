@@ -39,4 +39,38 @@ class ValidateTest < Minitest::Test
     validator = Validate.new(board)
     assert validator.validate_all_empty("A1", "A3")
   end
+
+  def test_same_letter
+    board = Board.new(4)
+    validator = Validate.new(board)
+    assert validator.same_letter?("A1", "A3")
+    refute validator.same_letter?("C1", "D3")
+  end
+
+  def test_same_number
+    board = Board.new(4)
+    validator = Validate.new(board)
+    assert validator.same_number?("A1", "B1")
+    refute validator.same_number?("D1", "B3")
+  end
+
+  def test_column_empty
+    board = Board.new(4)
+    validator = Validate.new(board)
+    assert validator.column_empty?(["A", "1"], ["C", "1"])
+
+    board2 = Board.new(4)
+    board2.set_element(2, 2, "2")
+    refute validator.column_empty?(["A", "3"], ["C", "3"])
+  end
+
+  def test_row_empty
+    board = Board.new(4)
+    validator = Validate.new(board)
+    assert validator.row_empty?(["A", "1"], ["A", "3"])
+
+    board2 = Board.new(4)
+    board2.set_element(2, 2, "2")
+    refute validator.row_empty?(["C", "2"], ["C", "4"])
+  end
 end
