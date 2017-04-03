@@ -61,6 +61,22 @@ class BoardTest < Minitest::Test
     result = start.zip(dir_value).map{|arr| arr.inject(:+)}
     assert_equal [0,1], result
   end
+
+  def test_find_consecutive_empty_neighbors
+    board = Board.new(5)
+    row, col, ship_length = 0, 0, 2
+    dir = board.direction["E"]
+    neighbors = []
+    neighbors << board.find_consecutive_empty_neighbors(row, col, ship_length, dir)
+    neighbors.flatten!.compact!
+    neighbors = neighbors.each_slice(2).to_a
+    expected = [[0, 1], [0, 2]]
+    assert_equal expected, neighbors
+  end
   
-  # binding.pry
+  def test_find_space_for_ship
+    board = Board.new(5)
+    empty_spaces = board.find_ship_space(3)
+  end
+  
 end

@@ -1,6 +1,8 @@
+require 'pry'
 class Board
   attr_accessor :board
   attr_reader :direction
+  
   def initialize(size)
     matrix = Array.new(size) {|row| Array.new(size) {|element| element = " "}}
     @board = matrix
@@ -21,14 +23,16 @@ class Board
     board[row_index][col_index] = element
   end
 
-  def find_empty_space(ship_length)
+  def find_ship_space(ship_length)
     ship_space = []
     row, col = grab_random_empty_space
 
     board[row][col] = "flagged"
     ship_space << [row, col]
     ship_length -= 1
-    ship_space << find_empty_neighbors(row, col, ship_length)
+    rand_dir = direction.to_a.sample(1).to_h
+    direction = rand_dir.values.flatten
+    ship_space << find_consecutive_empty_neighbors(row, col, ship_length, direction)
   end
 
   def grab_random_empty_space
@@ -47,14 +51,22 @@ class Board
     return Random.rand(1...board.size)
   end
 
-  def find_empty_neighbors(first_index, second_index, ship_length)
+  def find_consecutive_empty_neighbors(first_index, second_index, ship_length, dir)
     return if ship_length == 0
     neighbor = []
     target = " "
     start = [first_index, second_index]
-
-    rand_dir = direction.to_a.sample(1).to_h
-    adjacent = start.zip(rand_dir.value).map{|arr| arr.inject(:+)}
+    adjacent = start.zip(dir).map{|arr| arr.inject(:+)}
+    row = adjacent[0]
+    col = adjacent[1]
+    if row < 0 or col < 0 or row >= board.size or col >= board.size
+      return nil
+    elsif board[row][col] == target
+      neighbor << adjacent
+      ship_length -= 1
+      neighbor << find_consecutive_empty_neighbors(row, col, ship_length, dir)
+    end
+    neighbor
   end
   
   
