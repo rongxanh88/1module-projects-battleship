@@ -1,11 +1,13 @@
 require './lib/comm'
+require './lib/ship_placement'
+require 'pry'
 
 class BattleShip
   include Communication
   attr_reader :difficulty, :computer_board
 
   def initialize
-    @difficulty = "beginner"
+    @difficulty = "b"
     start_game_sequence
   end
 
@@ -44,6 +46,8 @@ class BattleShip
   
   def place_player_ships
     player = ShipPlacement.new(difficulty)
+    player_place_ships_message(difficulty)
+    player.select_ship_placement
   end
   
   def place_computer_ships
@@ -55,12 +59,10 @@ class BattleShip
   
   def get_difficulty
     select_difficulty
-    answer = ""
-    while answer != ("b" or "i" or "a") do
-      answer = gets.chomp
+    ans = ""
+    while (ans != "b") and (ans != "i") and (ans != "a") do
+      ans = gets.chomp
     end
-    @difficulty = answer
+    @difficulty = ans
   end
 end
-
-#new_game = BattleShip.new

@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/comm'
+require 'pry'
 
 class ShipPlacement
   include Communication
@@ -13,22 +14,22 @@ class ShipPlacement
   
   def generate_board
     case difficulty
-    when "beginner"
+    when "b"
       @board = Board.new(4)
-    when "intermediate"
+    when "i"
       @board = Board.new(8)
-    when "advanced"
+    when "a"
       @board = Board.new(12)
     end
   end
 
   def generate_ships
     case difficulty
-    when "beginner"
+    when "b"
       @ships = [2,3]
-    when "intermediate"
+    when "i"
       @ships = [2,3,4]
-    when "advanced"
+    when "a"
       @ships = [2,3,4,5]
     end
   end
@@ -48,7 +49,7 @@ class ShipPlacement
     end
   end
   
-  def player_select_ship_placement
-    get_coordinates
+  def select_ship_placement
+    enter_coordinates_message
   end
 end

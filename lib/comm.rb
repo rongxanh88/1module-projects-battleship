@@ -28,18 +28,47 @@ module Communication
     puts "Please select difficulty setting."
     double_space
     puts "(b)eginner, (i)ntermediate, (a)dvanced"
-    double_space
   end
   
-
   def computer_placed_ships
     double_space
     puts "The computer has placed the ships on the board."
+  end
+  
+  def player_place_ships_message(difficulty)
+    start_grid = "A1"
+    additional_units = ""
+    case difficulty
+    when "b"
+      num_ships = 2
+      end_grid = "D4"
+    when "i"
+      num_ships = 3
+      end_grid = "H8"
+      additional_units = "The third is four units long.\n"
+    when "a"
+      num_ships = 4
+      end_grid = "L12"
+      additional_units = "The third is four units long.\n" +
+                        "The fourth is five units long.\n"
+    end
+
     double_space
+    puts "You now need to layout your #{num_ships} ships.\n" +
+         "The first is two units long and the\n" +
+         "second is three units long.\n" +
+         additional_units +
+         "The grid has #{start_grid} at the top left and #{end_grid} at the bottom right."
+  end
+
+  def enter_coordinates_message(ship_size)
+    double_space
+    puts "You are placing a ship of #{ship_size} units in length.\n" +
+         "Please enter the beginning and end coordinates like so:\n" +
+         "A1 D1"
   end
   
   def double_space
     puts "\n\n"
   end
-  
 end
