@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/comm'
+require './lib/validate'
 require 'pry'
 
 class ShipPlacement
@@ -49,7 +50,24 @@ class ShipPlacement
     end
   end
   
-  def select_ship_placement
-    enter_coordinates_message
+  # def select_ship_placement
+  #   ships.each do |ship|
+  #     enter_coordinates_message(ship)
+  #     coordinates = gets.chomp
+  #     validate_coordinates(coordinates, ship)
+  #   end
+  # end
+
+  def validate_coordinates(coordinates, ship_length)
+    validator = Validate.new(board)
+    is_valid = true
+    start = coordinates.split(" ").first
+    last = coordinates.split(" ").last
+    is_valid = false unless validator.validate(start)
+    is_valid = false unless validator.validate(last)
+    is_valid = false unless validator.validate_in_line(start, last)
+    is_valid = false unless validator.validate_all_empty(start, last)
+    is_valid = false unless validator.validate_length(start, last, ship_length)
+    is_valid
   end
 end

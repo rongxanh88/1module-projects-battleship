@@ -22,6 +22,22 @@ class Validate
     end
   end
 
+  def validate_length(first_coord, second_coord, length)
+    first_split = first_coord.split("")
+    second_split = second_coord.split("")
+
+    if same_letter?(first_split, second_split)
+      first_num = first_split[1].to_i
+      second_num = second_split[1].to_i
+      return false if (first_num - second_num).abs != (length - 1)
+    elsif same_number?(first_split, second_split)
+      first_num = ROWS[first_split[0]]
+      second_num = ROWS[second_split[0]]
+      return false if (first_num - second_num).abs != (length - 1)
+    end
+    true
+  end
+
   def validate_in_line(first_coord, second_coord)
     first_split = first_coord.split("")
     second_split = second_coord.split("")

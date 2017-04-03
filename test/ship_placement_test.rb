@@ -3,33 +3,37 @@ require './lib/ship_placement'
 
 class ShipPlacementTest < Minitest::Test
   def test_instance_of_battle_ship
-    player = ShipPlacement.new("beginner")
+    player = ShipPlacement.new("b")
     assert_instance_of ShipPlacement, player
   end
 
   def test_board_creation
-    player = ShipPlacement.new("beginner")
+    player = ShipPlacement.new("b")
     assert_instance_of Board, player.board
   end
   
   def test_difficulty
-    player = ShipPlacement.new("beginner")
-    assert_equal "beginner", player.difficulty
+    player = ShipPlacement.new("b")
+    assert_equal "b", player.difficulty
   end
 
   def test_has_ships_for_beginner_game
-    computer = ShipPlacement.new("beginner")
+    computer = ShipPlacement.new("b")
     assert_equal 2, computer.ships.size
   end
 
   def test_has_correct_ships_for_beginner_game
-    computer = ShipPlacement.new("beginner")
+    computer = ShipPlacement.new("b")
     assert_equal [2,3], computer.ships
   end
   
   def test_place_computer_ships
-    computer = ShipPlacement.new("beginner")
+    computer = ShipPlacement.new("b")
     computer.place_ships
   end
   
+  def test_validate_coordinates
+    player = ShipPlacement.new("b")
+    assert player.validate_coordinates("A1 A3", 3)
+  end
 end
