@@ -2,7 +2,7 @@ require './lib/comm'
 
 class BattleShip
   include Communication
-  attr_reader :difficulty
+  attr_reader :difficulty, :computer_board
 
   def initialize
     @difficulty = "beginner"
@@ -46,10 +46,11 @@ class BattleShip
   #   player.place_ships
   # end
   
-  # def place_computer_ships
-  #   computer = ShipPlacement.new(difficulty)
-  #   computer.place_ships
-  # end
+  def place_computer_ships
+    computer = ShipPlacement.new(difficulty)
+    computer.place_ships
+    @computer_board = computer.board
+  end
   
   def get_difficulty
     select_difficulty

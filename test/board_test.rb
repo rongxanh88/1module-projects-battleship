@@ -77,6 +77,7 @@ class BoardTest < Minitest::Test
   def test_find_space_for_ship
     board = Board.new(5)
     empty_spaces = board.find_ship_space(3)
+    assert_equal 3, empty_spaces.size
   end
   
 end

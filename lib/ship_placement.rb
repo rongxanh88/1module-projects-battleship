@@ -33,12 +33,19 @@ class ShipPlacement
     end
   end
   
-  # def place_ships
-  #   ships.each do |ship|
-  #     empty_space = board.find_empty_space(ship.size)
-  #     randomly_choose(empty_space)
-  #     place(ship)
-  #   end
-  # end
+  def place_ships
+    ships.each do |ship|
+      empty_spaces = board.find_ship_space(ship)
+      place(empty_spaces, ship)
+    end
+  end
+
+  def place(empty_spaces, ship)
+    empty_spaces.each do |space|
+      row = space[0]
+      col = space[1]
+      board.set_element(row,col, ship.to_s)
+    end
+  end
   
 end

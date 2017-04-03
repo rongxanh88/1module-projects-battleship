@@ -28,7 +28,6 @@ class ShipPlacementTest < Minitest::Test
   end
   
   def test_place_computer_ships
-    skip
     computer = ShipPlacement.new("beginner")
     computer.place_ships
   end
