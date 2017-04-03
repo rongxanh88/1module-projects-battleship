@@ -48,4 +48,7 @@ class ShipPlacement
     end
   end
   
+  def player_select_ship_placement
+    get_coordinates
+  end
 end

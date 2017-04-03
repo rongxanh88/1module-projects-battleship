@@ -30,6 +30,7 @@ class BattleShip
   def play_game
     get_difficulty
     place_computer_ships
+    place_player_ships
   end
   
   def instructions 
@@ -41,15 +42,15 @@ class BattleShip
     start_game_sequence
   end
   
-  # def place_player_ships
-  #   player = ShipPlacement.new(difficulty)
-  #   player.place_ships
-  # end
+  def place_player_ships
+    player = ShipPlacement.new(difficulty)
+  end
   
   def place_computer_ships
     computer = ShipPlacement.new(difficulty)
     computer.place_ships
     @computer_board = computer.board
+    computer_placed_ships
   end
   
   def get_difficulty

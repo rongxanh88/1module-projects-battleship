@@ -1,14 +1,14 @@
+require './lib/constants'
 require 'pry'
+
 class Board
+  include Constants
   attr_accessor :board
   attr_reader :direction
   
   def initialize(size)
-    matrix = Array.new(size) {|row| Array.new(size) {|element| element = " "}}
-    @board = matrix
-    @direction = {
-      "N" => [-1,0], "E" => [0, 1], "S" => [1, 0], "W" => [0, -1]
-    }
+    @board = Array.new(size) {|row| Array.new(size) {|element| element = " "}}
+    @direction = DIRECTION
   end
 
   def size
