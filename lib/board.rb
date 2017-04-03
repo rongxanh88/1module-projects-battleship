@@ -49,11 +49,8 @@ class Board
     return random_row, random_col
   end
 
-  def get_random_board_digit
-    return Random.rand(1...board.size)
-  end
-
-  def find_consecutive_empty_neighbors(first_index, second_index, ship_length, dir)
+  def find_consecutive_empty_neighbors(first_index, second_index,
+                                       ship_length, dir)
     return if ship_length == 0
     neighbor = []
     start = [first_index, second_index]
@@ -68,5 +65,33 @@ class Board
       neighbor << find_consecutive_empty_neighbors(row, col, ship_length, dir)
     end
     neighbor
+  end
+
+  def get_random_board_digit
+    return Random.rand(1...board.size)
+  end
+
+  def find_direction(start, last)
+    first_row = ROWS[start[0]]
+    second_row = ROWS[last[0]]
+    first_col = start[1].to_i
+    second_col = last[1].to_i
+
+    if first_row == second_row
+      num = second_col - first_col
+      if num > 0
+        direction = DIRECTION["E"]
+      else
+        direction = DIRECTION["W"]
+      end
+    elsif first_col == second_col
+      num = second_row - first_row
+      if num > 0
+        direction = DIRECTION["S"]
+      else
+        direction = DIRECTION["N"]
+      end
+    end
+    return direction
   end
 end

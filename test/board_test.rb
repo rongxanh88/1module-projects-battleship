@@ -79,5 +79,13 @@ class BoardTest < Minitest::Test
     empty_spaces = board.find_ship_space(3)
     assert_equal 3, empty_spaces.size
   end
+
+  def test_find_direction
+    board = Board.new(4)
+    assert_equal "E", board.find_direction("A1", "A3")
+    assert_equal "W", board.find_direction("A3", "A1")
+    assert_equal "N", board.find_direction("C1", "A1")
+    assert_equal "S", board.find_direction("A1", "C1")
+  end
   
 end

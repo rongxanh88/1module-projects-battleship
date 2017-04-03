@@ -35,5 +35,12 @@ class ShipPlacementTest < Minitest::Test
   def test_validate_coordinates
     player = ShipPlacement.new("b")
     assert player.validate_coordinates("A1 A3", 3)
+    refute player.validate_coordinates("A1B2", 2)
+    refute player.validate_coordinates("A1 A3", 2)
+  end
+
+  def test_player_place_ships
+    player = ShipPlacement.new("b")
+    player.select_ship_placement
   end
 end
