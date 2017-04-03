@@ -40,9 +40,9 @@ class Validate
     second_split = second_coord.split("")
 
     if same_letter?(first_split, second_split)
-      #look along column
+      row_empty?(first_split, second_split)
     elsif same_number?(first_split, second_split)
-      #look along row
+      column_empty?(first_split, second_split)
     end
   end
 
@@ -55,10 +55,49 @@ class Validate
   end
 
   def column_empty?(first_coord, second_coord)
-
+    first_letter = first_coord[0]
+    second_letter = second_coord[0]
+    number = first_coord[1].to_i
+    first_row_num = ROWS[first_letter]
+    second_row_num = ROWS[second_letter]
+    if second_row_num > first_row_num
+      iterate_through_row(first_row_num, second_row_num, number)
+    elsif first_row_num > second_row_num
+      iterate_through_row(second_row_num, first_row_num, number)
+    end
   end
 
   def row_empty?(first_coord, second_coord)
+    letter = first_coord[0]
+    first_num = first_coord[1].to_i
+    second_num = second_coord[1].to_i
+    row_num = ROWS[letter]
+    if second_num > first_num
+      iterate_through_col(first_num, second_num, row_num)
+    elsif first_num > second_num
+      iterate_through_col(second_num, first_num, row_num)
+    end
+  end
 
+  def iterate_through_row(first_row, second_row, col)
+    while first_row <= second_row do
+      element = board.get_element(first_row, col)
+      if element != " "
+        return false
+      end
+      first_row += 1
+    end
+    return true
+  end
+
+  def iterate_through_col(first_col, second_col, row)
+    while first_col <= second_col do
+      element = board.get_element(row, first_col)
+      if element != " "
+        return false
+      end
+      first_col += 1
+    end
+    return true
   end
 end

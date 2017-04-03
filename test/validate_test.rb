@@ -37,6 +37,7 @@ class ValidateTest < Minitest::Test
   def test_validate_all_empty
     board = Board.new(4)
     validator = Validate.new(board)
+    assert validator.validate_all_empty("A1", "C1")
     assert validator.validate_all_empty("A1", "A3")
   end
 
@@ -58,10 +59,12 @@ class ValidateTest < Minitest::Test
     board = Board.new(4)
     validator = Validate.new(board)
     assert validator.column_empty?(["A", "1"], ["C", "1"])
+    assert validator.column_empty?(["C", "1"], ["A", "1"])
 
     board2 = Board.new(4)
-    board2.set_element(2, 2, "2")
-    refute validator.column_empty?(["A", "3"], ["C", "3"])
+    board2.set_element(0, 1, "2")
+    validator2 = Validate.new(board2)
+    refute validator2.column_empty?(["A", "1"], ["C", "1"])
   end
 
   def test_row_empty
