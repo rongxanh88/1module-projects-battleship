@@ -17,7 +17,7 @@ class Board
   end
   
   def get_element(row_index, col_index)
-    return board[row_index][col_index]
+    board[row_index][col_index]
   end
   
   def set_element(row_index, col_index, element)
@@ -65,28 +65,18 @@ class Board
     end
     neighbor
   end
-  
+
   def find_direction(start, last)
-    first_row = ROWS[start[0]]
-    second_row = ROWS[last[0]]
-    first_col = start[1].to_i
-    second_col = last[1].to_i
+    first_row, first_col = convert_coordinate_to_indices(start)
+    second_row, second_col = convert_coordinate_to_indices(last)
 
     if first_row == second_row
       num = second_col - first_col
-      if num > 0
-        direction = DIRECTION["E"]
-      else
-        direction = DIRECTION["W"]
-      end
+      num > 0 ? direction = DIRECTION["E"] : direction = DIRECTION["W"]
     elsif first_col == second_col
       num = second_row - first_row
-      if num > 0
-        direction = DIRECTION["S"]
-      else
-        direction = DIRECTION["N"]
-      end
+      num > 0 ? direction = DIRECTION["S"] : direction = DIRECTION["N"]
     end
-    return direction
+    direction
   end
 end

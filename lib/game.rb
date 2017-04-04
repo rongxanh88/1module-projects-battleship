@@ -75,12 +75,6 @@ class Game
     end
     return board.get_element(row, col)
   end
-  
-  def convert_coordinate_to_indices(coordinate)
-    row_index = ROWS[coordinate.split("").first]
-    col_index = (coordinate.split("").last.to_i) - 1
-    return row_index, col_index
-  end
 
   def check_condition_of_ships(board, ships)
     temp_ships = ships

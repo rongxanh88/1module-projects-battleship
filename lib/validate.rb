@@ -1,7 +1,9 @@
 require './lib/constants'
+require './lib/board_navigation'
+require 'pry'
 
 class Validate
-  include Constants
+  include Constants, Navigation
   attr_accessor :board
 
   def initialize(board)
@@ -9,17 +11,12 @@ class Validate
   end
 
   def validate(coordinate)
-    split_coordinate = coordinate.split("")
     rows = Hash[ROWS.sort_by { |k,v| v }[0...board.size]]
-    row = split_coordinate[0]
-    col = split_coordinate[1].to_i
-    if col < 1 or col > board.size
-      false
-    elsif rows.has_key?(row) == false
-      false
-    else
-      true
+    row, col = convert_coordinate_to_indices(coordinate)
+    if col < 0 or col > (board.size - 1) or !rows.has_value?(row)
+      return false
     end
+    return true
   end
 
   def validate_length(first_coord, second_coord, length)
@@ -41,7 +38,6 @@ class Validate
   def validate_in_line(first_coord, second_coord)
     first_split = first_coord.split("")
     second_split = second_coord.split("")
-    letter, number = 0, 1
 
     if same_letter?(first_split, second_split) or
       same_number?(first_split, second_split)

@@ -2,10 +2,11 @@ require './lib/board'
 require './lib/comm'
 require './lib/validate'
 require './lib/constants'
+require './lib/board_navigation'
 require 'pry'
 
 class ShipPlacement
-  include Communication, Constants
+  include Communication, Constants, Navigation
   attr_accessor :board, :difficulty, :ships
 
   def initialize(difficulty)
@@ -43,21 +44,20 @@ class ShipPlacement
       coordinates = gets.chomp
       start = coordinates.split(" ").first
       last = coordinates.split(" ").last
-      row_index = ROWS[start.split("").first]
-      col_index = start.split("").last.to_i - 1
+      row, col = convert_coordinate_to_indices(start)
       direction = board.find_direction(start, last)
       if validate_coordinates(coordinates, ship)
         empty_spaces = board.find_consecutive_empty_neighbors(
-          row_index, col_index, ship - 1, direction)
+          row, col, ship - 1, direction)
         empty_spaces.flatten!.compact!
         empty_spaces = empty_spaces.each_slice(2).to_a
-        empty_spaces.unshift([row_index, col_index])
+        empty_spaces.unshift([row, col])
         place(empty_spaces, ship)
       else
         redo
       end
     end
-    return board
+    board
   end
 
   def validate_coordinates(coordinates, ship_length)
