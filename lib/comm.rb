@@ -79,6 +79,11 @@ module Communication
     puts "Please enter a coordinate to target."
   end
 
+  def computer_shot_message
+    double_space
+    puts "Computer is shooting"
+  end
+
   def target_is_hit
     double_space
     puts "Target is hit."
@@ -93,7 +98,55 @@ module Communication
     double_space
     puts "The #{ship_type} unit ship has been hit."
   end
+
+  def end_turn_message
+    double_space
+    puts "Press enter to end turn."
+  end
   
+  def player_loses_message
+    double_space
+    puts "Sorry but you lost, you loser. You lost to a program. SAD!"
+  end
+
+  def player_wins_message
+    double_space
+    puts "Congrats! You win. Now have a sucker."
+  end
+
+  def shots_fired_message(grids_targeted)
+    double_space
+    puts "Number of shots fired by both sides is #{grids_targeted.size}."
+  end
+
+  def press_enter_message
+    puts "Hit enter to end turn."
+  end
+
+  def print_border
+    puts "=============================\n"
+  end
+
+  def print_row_label(size)
+    (size + 1).times do |num|
+      if num == 0
+        print ".   "
+      else
+        print "#{num}    "
+      end
+    end
+    puts "\n"
+  end
+
+  def print_whole_board(board, letters)
+    counter = 0
+    board.board.each do |row|
+      letter = letters.key(counter)
+      puts "#{letter} #{row}\n"
+      counter += 1
+    end
+  end
+
   def double_space
     puts "\n\n"
   end
