@@ -68,3 +68,5 @@ class BattleShip
     @difficulty = ans
   end
 end
+
+new_game = BattleShip.new

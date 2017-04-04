@@ -29,14 +29,43 @@ class GameTest < Minitest::Test
     game.computer_shoots
   end
 
-  def test_get_random_indexes
+  def test_convert_coordinates_to_indices
     player_board = Board.new(4)
     comp_board = Board.new(4)
     game = Game.new(player_board, comp_board, "b")
-    row, col = game.gen_random_indices
-    assert row > 0
-    assert row < player_board.size
-    assert col > 0
-    assert col < player_board.size
+    row, col = game.convert_coordinate_to_indices("A1")
+
+    assert_equal 0, row
+    assert_equal 0, col
+  end
+
+  def test_valid_coordinates
+    player_board = Board.new(4)
+    comp_board = Board.new(4)
+    game = Game.new(player_board, comp_board, "b")
+
+    assert game.valid_coordinate?("A1")
+    refute game.valid_coordinate?("Z2")
+  end
+
+  def test_check_condition_of_ships
+    player_board = Board.new(4)
+    player_board.set_element(0,0, "2")
+    player_board.set_element(0,1, "3")
+    comp_board = Board.new(4)
+    game = Game.new(player_board, comp_board, "b")
+    ships = game.player_ships
+    result = game.check_condition_of_ships(player_board, ships)
+    assert_equal [2,3], result
+
+    player_board.set_element(0,0, "H")
+    game2 = Game.new(player_board, comp_board, "b")
+    result = game2.check_condition_of_ships(player_board, ships)
+    assert_equal [3], result
+
+    player_board.set_element(0,1, "H")
+    game3 = Game.new(player_board, comp_board, "b")
+    result = game3.check_condition_of_ships(player_board, ships)
+    assert_equal [], result
   end
 end

@@ -1,8 +1,9 @@
 require './lib/constants'
+require './lib/board_navigation'
 require 'pry'
 
 class Board
-  include Constants
+  include Constants, Navigation
   attr_accessor :board
   attr_reader :direction
   
@@ -39,14 +40,12 @@ class Board
   end
 
   def grab_random_empty_space
-    random_row = get_random_board_digit
-    random_col = get_random_board_digit
+    row, col = gen_random_indices(board.size)
 
-    while (board[random_row][random_col] != " ") do
-      random_row = get_random_board_digit
-      random_col = get_random_board_digit
+    while (board[row][col] != " ") do
+      row, col = gen_random_indices(board.size)
     end
-    return random_row, random_col
+    return row, col
   end
 
   def find_consecutive_empty_neighbors(first_index, second_index,
@@ -66,11 +65,7 @@ class Board
     end
     neighbor
   end
-
-  def get_random_board_digit
-    return Random.rand(0...board.size)
-  end
-
+  
   def find_direction(start, last)
     first_row = ROWS[start[0]]
     second_row = ROWS[last[0]]

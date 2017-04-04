@@ -1,9 +1,11 @@
 require './lib/comm'
 require './lib/constants'
 require './lib/validate'
+require './lib/board_navigation'
+require 'pry'
 
 class Game
-  include Communication, Constants
+  include Communication, Constants, Navigation
   attr_accessor :player_board, :comp_board, :player_ships, :comp_ships,
                 :target_stack, :grids_targeted
   attr_reader :difficulty
@@ -22,28 +24,29 @@ class Game
   end
 
   def shooting_loop
-    while !player_ships.empty? or !comp_ships.empty? do
+    unless player_ships.empty? or comp_ships.empty?
       player_shot_message
       coordinate = ""
-      while !valid_coordinate?(coordinate) do
+      unless valid_coordinate?(coordinate)
         coordinate = gets.chomp
       end
       row, col = convert_coordinate_to_indices(coordinate)
-      result = fire_at_coordinate(coordinate, comp_board)
+      result = fire_at_coordinate(row, col, comp_board)
       
       if result == "M"
         target_is_miss
       else
         target_is_hit
       end
+      check_condition_of_ships(comp_board, comp_ships)
       computer_shoots
     end
   end
 
   def computer_shoots
     row, col = -1, -1
-    while !grids_targeted.include?([row, col]) do
-      row, col = gen_random_indices
+    unless grids_targeted.include?([row, col])
+      row, col = gen_random_indices(player_board.size)
     end
     @grids_targeted << [row, col]
     result = fire_at_coordinate(row, col, player_board)
@@ -53,12 +56,7 @@ class Game
       target_is_hit
       @target_stack.push([row, col])
     end
-  end
-
-  def gen_random_indices
-    row = Random.rand(1...player_board.size)
-    col = Random.rand(1...player_board.size)
-    return row, col
+    check_condition_of_ships(player_board, player_ships)
   end
   
   def valid_coordinate?(coordinate)
@@ -80,7 +78,23 @@ class Game
   
   def convert_coordinate_to_indices(coordinate)
     row_index = ROWS[coordinate.split("").first]
-    col_index = coordinate.split("").last.to_i - 1
+    col_index = (coordinate.split("").last.to_i) - 1
     return row_index, col_index
+  end
+
+  def check_condition_of_ships(board, ships)
+    temp_ships = ships
+    temp_ships.each do |ship|
+      flag = "dead"
+      board.board.each do |row|
+        row.each do |element|
+          if element == ship.to_s
+            flag = "alive"
+          end
+        end
+      end
+      ships.delete(ship) if flag == "dead"
+    end
+    return ships
   end
 end
