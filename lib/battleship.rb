@@ -60,9 +60,9 @@ class BattleShip
   end
   
   def get_difficulty
-    select_difficulty
     ans = ""
     while (ans != "b") and (ans != "i") and (ans != "a") do
+      select_difficulty
       ans = gets.chomp
     end
     @difficulty = ans

@@ -8,7 +8,7 @@ require 'pry'
 class Game
   include Communication, Constants, Navigation
   attr_accessor :player_board, :comp_board, :player_ships, :comp_ships,
-                :target_stack, :grids_targeted, :target_board
+                :player_targets, :grids_targeted, :target_board
   attr_reader :difficulty
 
   def initialize(player_board, comp_board, difficulty)
@@ -16,7 +16,7 @@ class Game
     @comp_board = comp_board
     @target_board = Board.new(player_board.size)
     @difficulty = difficulty
-    #@target_stack = []
+    @player_targets = []
     @grids_targeted = []
     setup_ships
     initiate_war_message
@@ -39,7 +39,7 @@ class Game
 
   def shooting_loop
     start = Time.now
-    while !player_ships.empty? or !comp_ships.empty? do
+    while !player_ships.empty? and !comp_ships.empty? do
       player_shoots
       computer_shoots
     end
@@ -51,20 +51,17 @@ class Game
 
   def player_shoots
     print_board(target_board)
-    player_shot_message
     coordinate = ""
-    while !valid_coordinate?(coordinate) do
+    while !valid_coordinate?(coordinate) and !player_targets.include?(coordinate) do
+      player_shot_message
       coordinate = gets.chomp
     end
+    @player_targets << coordinate
     row, col = convert_coordinate_to_indices(coordinate)
     result = fire_at_coordinate(row, col, comp_board)
     @target_board.set_element(row, col, result)
 
-    if result == "M"
-      target_is_miss
-    else
-      target_is_hit
-    end
+    result == "M" ? target_is_miss : target_is_hit
     check_condition_of_ships(comp_board, comp_ships)
     print_board(target_board)
     press_enter_to_end_turn
@@ -78,14 +75,9 @@ class Game
     end
     @grids_targeted << [row, col]
     result = fire_at_coordinate(row, col, player_board)
-    if result == "M"
-      target_is_miss
-    else
-      target_is_hit
-      #@target_stack.push([row, col])
-    end
-    #print_board(player_board)
-    sleep 1
+    result == "M" ? target_is_miss : target_is_hit
+    print_board(player_board)
+    sleep 2
     check_condition_of_ships(player_board, player_ships)
   end
   
@@ -117,7 +109,6 @@ class Game
       end
       ships.delete(ship) if flag == "dead"
     end
-    #return ships
   end
 
   def print_board(board)
@@ -127,12 +118,13 @@ class Game
     print_row_label(board.size)
     print_whole_board(board, letters)
     print_border
+    double_space
   end
 
   def press_enter_to_end_turn
-    press_enter_message
     ans = ""
     while ans != "\n"
+      press_enter_message
       ans = gets
     end
   end

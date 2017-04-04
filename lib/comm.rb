@@ -76,7 +76,7 @@ module Communication
 
   def player_shot_message
     double_space
-    puts "Please enter a coordinate to target."
+    puts "Please enter a coordinate to target. Note, you cannot enter a previously fired upon coordinate."
   end
 
   def computer_shot_message
