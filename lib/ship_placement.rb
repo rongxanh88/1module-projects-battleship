@@ -15,25 +15,11 @@ class ShipPlacement
   end
   
   def generate_board
-    case difficulty
-    when "b"
-      @board = Board.new(4)
-    when "i"
-      @board = Board.new(8)
-    when "a"
-      @board = Board.new(12)
-    end
+    @board = Board.new(BOARD_SIZE[difficulty])
   end
 
   def generate_ships
-    case difficulty
-    when "b"
-      @ships = [2,3]
-    when "i"
-      @ships = [2,3,4]
-    when "a"
-      @ships = [2,3,4,5]
-    end
+    @ships = SHIPS[difficulty]
   end
   
   def place_ships

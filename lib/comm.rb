@@ -67,6 +67,17 @@ module Communication
          "Please enter the beginning and end coordinates like so:\n" +
          "A1 D1"
   end
+
+  def initiate_war_message
+    double_space
+    puts "You have set up your fleet just in time!\n" +
+         "The enemy is now in range. For the MOTHERLAND!!!"
+  end
+
+  def player_shot_message
+    double_space
+    puts "Please enter a coordinate to target."
+  end
   
   def double_space
     puts "\n\n"
