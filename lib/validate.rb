@@ -41,10 +41,9 @@ class Validate
 
     if same_letter?(first_split, second_split) or
       same_number?(first_split, second_split)
-      true
-    else
-      false
+      return true
     end
+    return false
   end
 
   def validate_all_empty(first_coord, second_coord)
@@ -73,9 +72,9 @@ class Validate
     first_row_num = ROWS[first_letter]
     second_row_num = ROWS[second_letter]
     if second_row_num > first_row_num
-      iterate_through_row(first_row_num, second_row_num, number)
+      iterate_through_line(first_row_num, second_row_num, number, "row")
     elsif first_row_num > second_row_num
-      iterate_through_row(second_row_num, first_row_num, number)
+      iterate_through_line(second_row_num, first_row_num, number, "row")
     end
   end
 
@@ -84,31 +83,23 @@ class Validate
     first_num = first_coord[1].to_i
     second_num = second_coord[1].to_i
     row_num = ROWS[letter]
+    
     if second_num > first_num
-      iterate_through_col(first_num, second_num, row_num)
+      iterate_through_line(first_num, second_num, row_num, "col")
     elsif first_num > second_num
-      iterate_through_col(second_num, first_num, row_num)
+      iterate_through_line(second_num, first_num, row_num, "col")
     end
   end
 
-  def iterate_through_row(first_row, second_row, col)
-    while first_row <= second_row do
-      element = board.get_element(first_row, col)
-      if element != " "
-        return false
+  def iterate_through_line(first_line, second_line, number, line_type)
+    while first_line <= second_line do
+      if line_type == "row"
+        element = board.get_element(first_line, number)
+      else
+        element = board.get_element(number, first_line)
       end
-      first_row += 1
-    end
-    return true
-  end
-
-  def iterate_through_col(first_col, second_col, row)
-    while first_col <= second_col do
-      element = board.get_element(row, first_col)
-      if element != " "
-        return false
-      end
-      first_col += 1
+      return false if element != " "
+      first_line += 1
     end
     return true
   end

@@ -19,33 +19,39 @@ class Game
     @target_stack = []
     @grids_targeted = []
 
-    #initiate_war_message
-    #shooting_loop
+    initiate_war_message
+    shooting_loop
   end
 
   def shooting_loop
-    unless player_ships.empty? or comp_ships.empty?
-      player_shot_message
-      coordinate = ""
-      unless valid_coordinate?(coordinate)
-        coordinate = gets.chomp
-      end
-      row, col = convert_coordinate_to_indices(coordinate)
-      result = fire_at_coordinate(row, col, comp_board)
-      
-      if result == "M"
-        target_is_miss
-      else
-        target_is_hit
-      end
-      check_condition_of_ships(comp_board, comp_ships)
+    while !player_ships.empty? or !comp_ships.empty? do
+      player_shoots
+      sleep
       computer_shoots
     end
   end
 
+  def player_shoots
+    player_shot_message
+    coordinate = ""
+    while !valid_coordinate?(coordinate) do
+      coordinate = gets.chomp
+    end
+    row, col = convert_coordinate_to_indices(coordinate)
+    result = fire_at_coordinate(row, col, comp_board)
+    
+    if result == "M"
+      target_is_miss
+    else
+      target_is_hit
+    end
+    sleep
+    check_condition_of_ships(comp_board, comp_ships)
+  end
+
   def computer_shoots
-    row, col = -1, -1
-    unless grids_targeted.include?([row, col])
+    row, col = gen_random_indices(player_board.size)
+    while grids_targeted.include?([row, col]) do
       row, col = gen_random_indices(player_board.size)
     end
     @grids_targeted << [row, col]
@@ -56,6 +62,7 @@ class Game
       target_is_hit
       @target_stack.push([row, col])
     end
+    sleep
     check_condition_of_ships(player_board, player_ships)
   end
   
@@ -76,19 +83,17 @@ class Game
     return board.get_element(row, col)
   end
 
-  def check_condition_of_ships(board, ships)
-    temp_ships = ships
-    temp_ships.each do |ship|
+  def check_condition_of_ships(person, ships)
+    cur_num_ships = ships
+    cur_num_ships.each do |ship|
       flag = "dead"
-      board.board.each do |row|
+      person.board.each do |row|
         row.each do |element|
-          if element == ship.to_s
-            flag = "alive"
-          end
+          flag = "alive" if element == ship.to_s
         end
       end
       ships.delete(ship) if flag == "dead"
     end
-    return ships
+    #return ships
   end
 end

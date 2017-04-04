@@ -14,4 +14,8 @@ module Navigation
     col_index = (coordinate.split("").last.to_i) - 1
     return row_index, col_index
   end
+
+  def sleep
+    sleep(1)
+  end
 end
