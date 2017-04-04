@@ -1,5 +1,6 @@
 require './lib/comm'
 require './lib/ship_placement'
+require './lib/game'
 require 'pry'
 
 class BattleShip
@@ -33,6 +34,7 @@ class BattleShip
     get_difficulty
     place_computer_ships
     place_player_ships
+    game = Game.new(player_board, computer_board)
   end
   
   def instructions 
