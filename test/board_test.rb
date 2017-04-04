@@ -29,22 +29,22 @@ class BoardTest < Minitest::Test
   end
   
   def test_get_random_board_location
-    board = Board.new(5)
+    board = Board.new(4)
     row_index = board.get_random_board_digit
     col_index = board.get_random_board_digit
 
-    assert row_index > 0
+    assert row_index >= 0
     assert row_index < board.size
-    assert col_index > 0
+    assert col_index >= 0
     assert col_index < board.size
   end
   
   def test_grab_random_empty_space
-    board = Board.new(5)
+    board = Board.new(4)
     row, col = board.grab_random_empty_space 
-    assert row > 0
+    assert row >= 0
     assert row < board.size
-    assert col > 0
+    assert col >= 0
     assert col < board.size
     assert_equal " ", board.get_element(row, col)
   end
@@ -82,10 +82,10 @@ class BoardTest < Minitest::Test
 
   def test_find_direction
     board = Board.new(4)
-    assert_equal "E", board.find_direction("A1", "A3")
-    assert_equal "W", board.find_direction("A3", "A1")
-    assert_equal "N", board.find_direction("C1", "A1")
-    assert_equal "S", board.find_direction("A1", "C1")
+    assert_equal [0,1], board.find_direction("A1", "A3")
+    assert_equal [0,-1], board.find_direction("A3", "A1")
+    assert_equal [-1,0], board.find_direction("C1", "A1")
+    assert_equal [1,0], board.find_direction("A1", "C1")
   end
   
 end

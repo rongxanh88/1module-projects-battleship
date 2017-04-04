@@ -78,6 +78,21 @@ module Communication
     double_space
     puts "Please enter a coordinate to target."
   end
+
+  def target_is_hit
+    double_space
+    puts "Target is hit."
+  end
+
+  def target_is_miss
+    double_space
+    puts "Target is missed."
+  end
+
+  def ship_hit_message(ship_type)
+    double_space
+    puts "The #{ship_type} unit ship has been hit."
+  end
   
   def double_space
     puts "\n\n"

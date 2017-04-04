@@ -68,7 +68,7 @@ class Board
   end
 
   def get_random_board_digit
-    return Random.rand(1...board.size)
+    return Random.rand(0...board.size)
   end
 
   def find_direction(start, last)
