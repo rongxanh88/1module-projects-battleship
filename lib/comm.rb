@@ -121,8 +121,11 @@ module Communication
     puts "The #{ship_length} unit ship has been destroyed."
   end
 
-  def print_border
-    puts "======================================================\n"
+  def print_border(size)
+    size.times do
+      print "====="
+    end
+    puts "\n"
   end
 
   def print_row_label(size)

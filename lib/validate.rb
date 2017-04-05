@@ -23,13 +23,13 @@ class Validate
     second_split = second_coord.split("")
 
     if same_letter?(first_split, second_split)
-      first_num = first_split[1].to_i
-      second_num = second_split[1].to_i
-      return false if (first_num - second_num).abs != (length - 1)
+      first_col = first_split[1].to_i
+      second_col = second_split[1].to_i
+      return false if (first_col - second_col).abs != (length - 1)
     elsif same_number?(first_split, second_split)
-      first_num = ROWS[first_split[0]]
-      second_num = ROWS[second_split[0]]
-      return false if (first_num - second_num).abs != (length - 1)
+      first_row = ROWS[first_split[0]]
+      second_row = ROWS[second_split[0]]
+      return false if (first_row - second_row).abs != (length - 1)
     end
     true
   end
@@ -48,7 +48,6 @@ class Validate
   def validate_all_empty(first_coord, second_coord)
     first_split = first_coord.split("")
     second_split = second_coord.split("")
-
     if same_letter?(first_split, second_split)
       row_empty?(first_split, second_split)
     elsif same_number?(first_split, second_split)
@@ -67,32 +66,31 @@ class Validate
   def column_empty?(first_coord, second_coord)
     first_letter = first_coord[0]
     second_letter = second_coord[0]
-    col = first_coord[1].to_i
+    col = first_coord[1].to_i - 1
     first_row = ROWS[first_letter]
     second_row = ROWS[second_letter]
     if second_row > first_row
-      iterate_through_line(first_row, second_row, col, "row")
+      iterate_through_line(first_row, second_row, col, "col")
     elsif first_row > second_row
-      iterate_through_line(second_row, first_row, col, "row")
+      iterate_through_line(second_row, first_row, col, "col")
     end
   end
 
   def row_empty?(first_coord, second_coord)
     letter = first_coord[0]
-    first_col = first_coord[1].to_i
-    second_col = second_coord[1].to_i
+    first_col = first_coord[1].to_i - 1
+    second_col = second_coord[1].to_i - 1
     row = ROWS[letter]
-    
     if second_col > first_col
-      iterate_through_line(first_col, second_col, row, "col")
+      iterate_through_line(first_col, second_col, row, "row")
     elsif first_col > second_col
-      iterate_through_line(second_col, first_col, row, "col")
+      iterate_through_line(second_col, first_col, row, "row")
     end
   end
 
   def iterate_through_line(first_line, second_line, number, line_type)
     while first_line <= second_line do
-      if line_type == "row"
+      if line_type == "col"
         element = board.get_element(first_line, number)
       else
         element = board.get_element(number, first_line)

@@ -62,9 +62,9 @@ class ValidateTest < Minitest::Test
     assert validator.column_empty?(["C", "1"], ["A", "1"])
 
     board2 = Board.new(4)
-    board2.set_element(0, 1, "2")
+    board2.set_element(1, 1, "2")
     validator2 = Validate.new(board2)
-    refute validator2.column_empty?(["A", "1"], ["C", "1"])
+    refute validator2.column_empty?(["B", "2"], ["D", "2"])
   end
 
   def test_row_empty

@@ -3,6 +3,7 @@ require './lib/constants'
 require './lib/validate'
 require './lib/board_navigation'
 require './lib/board'
+require 'pry'
 
 class Game
   include Communication, Constants, Navigation
@@ -109,10 +110,10 @@ class Game
   def print_board(board)
     letters = Hash[ROWS.sort_by { |k,v| v }[0...board.size]]
     
-    print_border
+    print_border(board.size)
     print_row_label(board.size)
     print_whole_board(board, letters)
-    print_border
+    print_border(board.size)
     double_space
   end
 
