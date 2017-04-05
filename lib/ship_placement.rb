@@ -33,8 +33,7 @@ class ShipPlacement
     ships.each do |ship|
       enter_coordinates_message(ship)
       coordinates = gets.chomp
-      start = coordinates.split(" ").first
-      last = coordinates.split(" ").last
+      start, last = split_into_two_coordinates(coordinates)
       row, col = convert_coordinate_to_indices(start)
       direction = find_direction(start, last)
       if validate_coordinates(coordinates, ship)
@@ -53,13 +52,12 @@ class ShipPlacement
 
   def validate_coordinates(coordinates, ship_length)
     validator = Validate.new(board)
-    start = coordinates.split(" ").first
-    last = coordinates.split(" ").last
+    start, last = split_into_two_coordinates(coordinates)
     return false unless validator.validate(start)
     return false unless validator.validate(last)
-    return false unless validator.validate_in_line(start, last)
-    return false unless validator.validate_all_empty(start, last)
-    return false unless validator.validate_length(start, last, ship_length)
+    return false unless validator.validate_in_line(coordinates)
+    return false unless validator.validate_all_empty(coordinates)
+    return false unless validator.validate_length(coordinates, ship_length)
     return true
   end
 end

@@ -18,40 +18,37 @@ class Validate
     return true
   end
 
-  def validate_length(first_coord, second_coord, length)
-    first_split = first_coord.split("")
-    second_split = second_coord.split("")
+  def validate_length(coordinates, length)
+    start, last = split_into_two_coordinates(coordinates)
 
-    if same_letter?(first_split, second_split)
-      first_col = first_split[1].to_i
-      second_col = second_split[1].to_i
+    if same_letter?(start, last)
+      first_col = start[1].to_i
+      second_col = last[1].to_i
       return false if (first_col - second_col).abs != (length - 1)
-    elsif same_number?(first_split, second_split)
-      first_row = ROWS[first_split[0]]
-      second_row = ROWS[second_split[0]]
+    elsif same_number?(start, last)
+      first_row = ROWS[start[0]]
+      second_row = ROWS[last[0]]
       return false if (first_row - second_row).abs != (length - 1)
     end
     true
   end
 
-  def validate_in_line(first_coord, second_coord)
-    first_split = first_coord.split("")
-    second_split = second_coord.split("")
+  def validate_in_line(coordinates)
+    start, last = split_into_two_coordinates(coordinates)
 
-    if same_letter?(first_split, second_split) or
-      same_number?(first_split, second_split)
+    if same_letter?(start, last) or
+      same_number?(start, last)
       return true
     end
     return false
   end
 
-  def validate_all_empty(first_coord, second_coord)
-    first_split = first_coord.split("")
-    second_split = second_coord.split("")
-    if same_letter?(first_split, second_split)
-      row_empty?(first_split, second_split)
-    elsif same_number?(first_split, second_split)
-      column_empty?(first_split, second_split)
+  def validate_all_empty(coordinates)
+    start, last = split_into_two_coordinates(coordinates)
+    if same_letter?(start, last)
+      row_empty?(start, last)
+    elsif same_number?(start, last)
+      column_empty?(start, last)
     end
   end
 

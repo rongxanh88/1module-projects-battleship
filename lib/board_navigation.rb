@@ -10,8 +10,9 @@ module Navigation
   end
   
   def convert_coordinate_to_indices(coordinate)
-    row_index = ROWS[coordinate.split("").first]
-    col_index = (coordinate.split("").last.to_i) - 1
+    split_coordinate = coordinate.split("")
+    row_index = ROWS[split_coordinate.first]
+    col_index = split_coordinate[1...split_coordinate.size].join.to_i - 1
     return row_index, col_index
   end
 
@@ -35,5 +36,11 @@ module Navigation
     row = adjacent[0]
     col = adjacent[1]
     return row, col
+  end
+
+  def split_into_two_coordinates(coordinates)
+    start = coordinates.split(" ").first
+    last = coordinates.split(" ").last
+    return start, last
   end
 end

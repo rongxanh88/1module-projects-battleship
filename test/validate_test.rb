@@ -26,19 +26,19 @@ class ValidateTest < Minitest::Test
   def test_validate_coordinates_are_in_line
     board = Board.new(4)
     validator = Validate.new(board)
-    assert validator.validate_in_line("A1", "A3")
-    assert validator.validate_in_line("A1", "B1")
-    assert validator.validate_in_line("D2", "D3")
-    refute validator.validate_in_line("A1", "B3")
-    refute validator.validate_in_line("C1", "D3")
-    refute validator.validate_in_line("E1", "D3")
+    assert validator.validate_in_line("A1 A3")
+    assert validator.validate_in_line("A1 B1")
+    assert validator.validate_in_line("D2 D3")
+    refute validator.validate_in_line("A1 B3")
+    refute validator.validate_in_line("C1 D3")
+    refute validator.validate_in_line("E1 D3")
   end
 
   def test_validate_all_empty
     board = Board.new(4)
     validator = Validate.new(board)
-    assert validator.validate_all_empty("A1", "C1")
-    assert validator.validate_all_empty("A1", "A3")
+    assert validator.validate_all_empty("A1 C1")
+    assert validator.validate_all_empty("A1 A3")
   end
 
   def test_same_letter
@@ -85,9 +85,9 @@ class ValidateTest < Minitest::Test
   def test_validate_length
     board = Board.new(4)
     validator = Validate.new(board)
-    assert validator.validate_length("A1", "A3", 3)
-    refute validator.validate_length("A1", "A2", 3)
-    assert validator.validate_length("A1", "C1", 3)
-    refute validator.validate_length("A1", "B1", 3)
+    assert validator.validate_length("A1 A3", 3)
+    refute validator.validate_length("A1 A2", 3)
+    assert validator.validate_length("A1 C1", 3)
+    refute validator.validate_length("A1 B1", 3)
   end
 end
