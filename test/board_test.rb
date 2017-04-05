@@ -18,15 +18,6 @@ class BoardTest < Minitest::Test
     board.set_element(0,0, "Hello")
     assert_equal "Hello", board.get_element(0,0)
   end
-
-  def test_get_neighbors_with_hit
-    skip
-    board = Board.new(5)
-    board.set_element(0,0, "hit")
-    board.set_element(0,2, "hit")
-    expected = [[0,0], [0,2]]
-    assert_equal expected, board.find_neighbors("hit", 0, 1)
-  end
   
   def test_grab_random_empty_space
     board = Board.new(4)
@@ -51,7 +42,13 @@ class BoardTest < Minitest::Test
     assert_equal [0,1], result
   end
 
-  def test_find_consecutive_empty_neighbors
+  def test_find_space_for_ship
+    board = Board.new(5)
+    empty_spaces = board.find_ship_space(3)
+    assert_equal 3, empty_spaces.size
+  end
+
+  def test_find_empty_neighbors
     board = Board.new(5)
     row, col, ship_length = 0, 0, 2
     dir = board.direction["E"]
@@ -63,12 +60,6 @@ class BoardTest < Minitest::Test
     assert_equal expected, neighbors
   end
   
-  def test_find_space_for_ship
-    board = Board.new(5)
-    empty_spaces = board.find_ship_space(3)
-    assert_equal 3, empty_spaces.size
-  end
-
   def test_find_direction
     board = Board.new(4)
     assert_equal [0,1], board.find_direction("A1", "A3")

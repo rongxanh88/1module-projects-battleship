@@ -26,7 +26,6 @@ module Communication
   def select_difficulty
     double_space
     puts "Please select difficulty setting."
-    double_space
     puts "(b)eginner, (i)ntermediate, (a)dvanced"
   end
   
@@ -158,6 +157,18 @@ module Communication
     puts "Congrats! You win. Now have a sucker."
   end
 
+  def time_elapsed(start, finish)
+    puts "Time elapsed: #{finish - start} seconds."
+  end
+
+  def player_board_title
+    puts "Player Board\n"
+  end
+
+  def targeting_board_title
+    puts "Target Board\n"
+  end
+  
   def double_space
     puts "\n\n"
   end

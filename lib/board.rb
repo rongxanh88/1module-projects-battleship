@@ -38,15 +38,6 @@ class Board
     ship_space
   end
 
-  def grab_random_empty_space
-    row, col = gen_random_indices(board.size)
-
-    while (board[row][col] != " ") do
-      row, col = gen_random_indices(board.size)
-    end
-    return row, col
-  end
-
   def find_empty_neighbors(first_index, second_index, ship_length, dir)
     return if ship_length == 0
     neighbor = []
@@ -59,5 +50,13 @@ class Board
       neighbor << find_empty_neighbors(row, col, ship_length, dir)
     end
     neighbor
+  end
+
+  def grab_random_empty_space
+    row, col = gen_random_indices(board.size)
+    while (board[row][col] != " ") do
+      row, col = gen_random_indices(board.size)
+    end
+    return row, col
   end
 end

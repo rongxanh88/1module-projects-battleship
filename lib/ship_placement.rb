@@ -10,15 +10,7 @@ class ShipPlacement
 
   def initialize(difficulty)
     @difficulty = difficulty
-    generate_board
-    generate_ships
-  end
-  
-  def generate_board
     @board = Board.new(BOARD_SIZE[difficulty])
-  end
-
-  def generate_ships
     @ships = SHIPS[difficulty]
   end
   
@@ -46,7 +38,7 @@ class ShipPlacement
       row, col = convert_coordinate_to_indices(start)
       direction = find_direction(start, last)
       if validate_coordinates(coordinates, ship)
-        empty_spaces = board.find_consecutive_empty_neighbors(
+        empty_spaces = board.find_empty_neighbors(
           row, col, ship - 1, direction)
         empty_spaces.flatten!.compact!
         empty_spaces = empty_spaces.each_slice(2).to_a

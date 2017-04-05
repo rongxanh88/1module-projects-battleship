@@ -74,7 +74,12 @@ class ValidateTest < Minitest::Test
 
     board2 = Board.new(4)
     board2.set_element(2, 2, "2")
-    refute validator.row_empty?(["C", "2"], ["C", "4"])
+    validator2 = Validate.new(board2)
+    refute validator2.row_empty?(["C", "2"], ["C", "4"])
+
+    board3 = Board.new(4)
+    validator3 = Validate.new(board3)
+    assert validator3.row_empty?(["C", "3"], ["C", "1"])
   end
 
   def test_validate_length

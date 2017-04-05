@@ -3,7 +3,6 @@ require './lib/constants'
 require './lib/validate'
 require './lib/board_navigation'
 require './lib/board'
-require 'pry'
 
 class Game
   include Communication, Constants, Navigation
@@ -32,12 +31,11 @@ class Game
       computer_shoots
     end
     finish = Time.now
-    player_ships.empty? ? player_loses_message : player_wins_message
-    shots_fired_message(grids_targeted)
-    puts "Time elapsed: #{finish - start} seconds."
+    game_ending(start, finish)
   end
 
   def player_shoots
+    targeting_board_title
     print_board(target_board)
     coordinate = ""
     while !valid_coordinate?(coordinate)do
@@ -55,6 +53,7 @@ class Game
 
     result == "M" ? target_is_miss : target_is_hit
     check_condition_of_ships(comp_board, comp_ships)
+    targeting_board_title
     print_board(target_board)
     press_enter_to_end_turn
   end
@@ -68,6 +67,7 @@ class Game
     @grids_targeted << [row, col]
     result = fire_at_coordinate(row, col, player_board)
     result == "M" ? target_is_miss : target_is_hit
+    player_board_title
     print_board(player_board)
     sleep 2
     check_condition_of_ships(player_board, player_ships)
@@ -108,7 +108,7 @@ class Game
 
   def print_board(board)
     letters = Hash[ROWS.sort_by { |k,v| v }[0...board.size]]
-
+    
     print_border
     print_row_label(board.size)
     print_whole_board(board, letters)
@@ -122,5 +122,11 @@ class Game
       press_enter_message
       ans = gets
     end
+  end
+
+  def game_ending(start, finish)
+    player_ships.empty? ? player_loses_message : player_wins_message
+    shots_fired_message(grids_targeted)
+    time_elapsed(start, finish)
   end
 end
