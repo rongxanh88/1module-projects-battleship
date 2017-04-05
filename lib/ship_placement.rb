@@ -3,7 +3,6 @@ require './lib/comm'
 require './lib/validate'
 require './lib/constants'
 require './lib/board_navigation'
-require 'pry'
 
 class ShipPlacement
   include Communication, Constants, Navigation
@@ -45,7 +44,7 @@ class ShipPlacement
       start = coordinates.split(" ").first
       last = coordinates.split(" ").last
       row, col = convert_coordinate_to_indices(start)
-      direction = board.find_direction(start, last)
+      direction = find_direction(start, last)
       if validate_coordinates(coordinates, ship)
         empty_spaces = board.find_consecutive_empty_neighbors(
           row, col, ship - 1, direction)

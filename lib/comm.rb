@@ -76,7 +76,12 @@ module Communication
 
   def player_shot_message
     double_space
-    puts "Please enter a coordinate to target. Note, you cannot enter a previously fired upon coordinate."
+    puts "Please enter a coordinate to target."
+  end
+
+  def already_fired_upon_message
+    double_space
+    puts "You have already fired on this target."
   end
 
   def computer_shot_message
@@ -104,16 +109,6 @@ module Communication
     puts "Press enter to end turn."
   end
   
-  def player_loses_message
-    double_space
-    puts "Sorry but you lost, you loser. You lost to a program. SAD!"
-  end
-
-  def player_wins_message
-    double_space
-    puts "Congrats! You win. Now have a sucker."
-  end
-
   def shots_fired_message(grids_targeted)
     double_space
     puts "Number of shots fired by both sides is #{grids_targeted.size}."
@@ -123,8 +118,12 @@ module Communication
     puts "Hit enter to end turn."
   end
 
+  def ship_destroyed_message(ship_length)
+    puts "The #{ship_length} unit ship has been destroyed."
+  end
+
   def print_border
-    puts "=============================\n"
+    puts "======================================================\n"
   end
 
   def print_row_label(size)
@@ -139,12 +138,24 @@ module Communication
   end
 
   def print_whole_board(board, letters)
-    counter = 0
-    board.board.each do |row|
-      letter = letters.key(counter)
-      puts "#{letter} #{row}\n"
-      counter += 1
+    board.board.each_with_index do |row, index|
+      letter = letters.key(index)
+      print "#{letter}   "
+      row.each do |element|
+        print "#{element}    "
+      end
+      puts "\n"
     end
+  end
+
+  def player_loses_message
+    double_space
+    puts "Sorry but you lost, you loser. You lost to a program. SAD!"
+  end
+
+  def player_wins_message
+    double_space
+    puts "Congrats! You win. Now have a sucker."
   end
 
   def double_space

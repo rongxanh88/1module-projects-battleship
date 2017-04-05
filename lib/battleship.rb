@@ -1,7 +1,6 @@
 require './lib/comm'
 require './lib/ship_placement'
 require './lib/game'
-require 'pry'
 
 class BattleShip
   include Communication
@@ -12,11 +11,15 @@ class BattleShip
     start_game_sequence
   end
 
+  private
   def start_game_sequence
     double_space
     main_menu_prompt
-    answer = gets.chomp
+    main_menu_options
+  end
 
+  def main_menu_options
+    answer = gets.chomp
     case answer
     when "p"
       play_game

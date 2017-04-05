@@ -1,6 +1,5 @@
 require './lib/constants'
 require './lib/board_navigation'
-require 'pry'
 
 class Validate
   include Constants, Navigation

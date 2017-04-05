@@ -56,7 +56,7 @@ class BoardTest < Minitest::Test
     row, col, ship_length = 0, 0, 2
     dir = board.direction["E"]
     neighbors = []
-    neighbors << board.find_consecutive_empty_neighbors(row, col, ship_length, dir)
+    neighbors << board.find_empty_neighbors(row, col, ship_length, dir)
     neighbors.flatten!.compact!
     neighbors = neighbors.each_slice(2).to_a
     expected = [[0, 1], [0, 2]]

@@ -13,34 +13,22 @@ class Game
 
   def initialize(player_board, comp_board, difficulty)
     @player_board = player_board
+    @player_ships = SHIPS[difficulty]
     @comp_board = comp_board
+    @comp_ships = ALTERNATE_SHIPS[difficulty]
     @target_board = Board.new(player_board.size)
     @difficulty = difficulty
     @player_targets = []
     @grids_targeted = []
-    setup_ships
     initiate_war_message
     shooting_loop
-  end
-
-  def setup_ships
-    case difficulty
-    when "b"
-      @player_ships = [2,3]
-      @comp_ships = [2,3]
-    when "i"
-      @player_ships = [2,3,4]
-      @comp_ships = [2,3,4]
-    when "a"
-      @player_ships = [2,3,4,5]
-      @comp_ships = [2,3,4,5]
-    end
   end
 
   def shooting_loop
     start = Time.now
     while !player_ships.empty? and !comp_ships.empty? do
       player_shoots
+      break if comp_ships.empty?
       computer_shoots
     end
     finish = Time.now
@@ -52,9 +40,13 @@ class Game
   def player_shoots
     print_board(target_board)
     coordinate = ""
-    while !valid_coordinate?(coordinate) and !player_targets.include?(coordinate) do
+    while !valid_coordinate?(coordinate)do
       player_shot_message
       coordinate = gets.chomp
+      if player_targets.include?(coordinate)
+        already_fired_upon_message
+        redo
+      end
     end
     @player_targets << coordinate
     row, col = convert_coordinate_to_indices(coordinate)
@@ -107,7 +99,10 @@ class Game
           flag = "alive" if element == ship.to_s
         end
       end
-      ships.delete(ship) if flag == "dead"
+      if flag == "dead"
+        ship_destroyed_message(ship)
+        ships.delete(ship)
+      end
     end
   end
 

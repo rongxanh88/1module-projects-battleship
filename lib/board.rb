@@ -1,6 +1,5 @@
 require './lib/constants'
 require './lib/board_navigation'
-require 'pry'
 
 class Board
   include Constants, Navigation
@@ -33,7 +32,7 @@ class Board
       row, col = grab_random_empty_space
       ship_space << [row,col]
       rand_dir = (direction.to_a.sample(1).to_h).values.flatten
-      ship_space << find_consecutive_empty_neighbors(row, col, length, rand_dir)
+      ship_space << find_empty_neighbors(row, col, length, rand_dir)
       ship_space = ship_space.flatten.compact.each_slice(2).to_a
     end
     ship_space
@@ -48,35 +47,17 @@ class Board
     return row, col
   end
 
-  def find_consecutive_empty_neighbors(first_index, second_index,
-                                       ship_length, dir)
+  def find_empty_neighbors(first_index, second_index, ship_length, dir)
     return if ship_length == 0
     neighbor = []
-    start = [first_index, second_index]
-    adjacent = start.zip(dir).map{|arr| arr.inject(:+)}
-    row = adjacent[0]
-    col = adjacent[1]
+    row, col = get_adjacent_indices(first_index, second_index, dir)
     if row < 0 or col < 0 or row >= board.size or col >= board.size
       return nil
     elsif board[row][col] == " "
-      neighbor << adjacent
+      neighbor << [row, col]
       ship_length -= 1
-      neighbor << find_consecutive_empty_neighbors(row, col, ship_length, dir)
+      neighbor << find_empty_neighbors(row, col, ship_length, dir)
     end
     neighbor
-  end
-
-  def find_direction(start, last)
-    first_row, first_col = convert_coordinate_to_indices(start)
-    second_row, second_col = convert_coordinate_to_indices(last)
-
-    if first_row == second_row
-      num = second_col - first_col
-      num > 0 ? direction = DIRECTION["E"] : direction = DIRECTION["W"]
-    elsif first_col == second_col
-      num = second_row - first_row
-      num > 0 ? direction = DIRECTION["S"] : direction = DIRECTION["N"]
-    end
-    direction
   end
 end
