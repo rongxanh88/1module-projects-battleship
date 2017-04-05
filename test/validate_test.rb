@@ -58,28 +58,28 @@ class ValidateTest < Minitest::Test
   def test_column_empty
     board = Board.new(4)
     validator = Validate.new(board)
-    assert validator.column_empty?(["A", "1"], ["C", "1"])
-    assert validator.column_empty?(["C", "1"], ["A", "1"])
+    assert validator.column_empty?("A1", "C1")
+    assert validator.column_empty?("C1", "A1")
 
     board2 = Board.new(4)
     board2.set_element(1, 1, "2")
     validator2 = Validate.new(board2)
-    refute validator2.column_empty?(["B", "2"], ["D", "2"])
+    refute validator2.column_empty?("B2", "D2")
   end
 
   def test_row_empty
     board = Board.new(4)
     validator = Validate.new(board)
-    assert validator.row_empty?(["A", "1"], ["A", "3"])
+    assert validator.row_empty?("A1", "A3")
 
     board2 = Board.new(4)
     board2.set_element(2, 2, "2")
     validator2 = Validate.new(board2)
-    refute validator2.row_empty?(["C", "2"], ["C", "4"])
+    refute validator2.row_empty?("C2", "C4")
 
     board3 = Board.new(4)
     validator3 = Validate.new(board3)
-    assert validator3.row_empty?(["C", "3"], ["C", "1"])
+    assert validator3.row_empty?("C3", "C1")
   end
 
   def test_validate_length

@@ -20,14 +20,12 @@ class Validate
 
   def validate_length(coordinates, length)
     start, last = split_into_two_coordinates(coordinates)
+    first_row, first_col = convert_coordinate_to_indices(start)
+    second_row, second_col = convert_coordinate_to_indices(last)
 
     if same_letter?(start, last)
-      first_col = start[1].to_i
-      second_col = last[1].to_i
       return false if (first_col - second_col).abs != (length - 1)
     elsif same_number?(start, last)
-      first_row = ROWS[start[0]]
-      second_row = ROWS[last[0]]
       return false if (first_row - second_row).abs != (length - 1)
     end
     true
@@ -46,9 +44,9 @@ class Validate
   def validate_all_empty(coordinates)
     start, last = split_into_two_coordinates(coordinates)
     if same_letter?(start, last)
-      row_empty?(start, last)
+      row_empty?(start.to_s, last.to_s)
     elsif same_number?(start, last)
-      column_empty?(start, last)
+      column_empty?(start.to_s, last.to_s)
     end
   end
 
@@ -57,31 +55,28 @@ class Validate
   end
 
   def same_number?(first_coord, second_coord)
-    first_coord[1] == second_coord[1]
+    first_row, first_col = convert_coordinate_to_indices(first_coord)
+    second_row, second_col = convert_coordinate_to_indices(second_coord)
+    return first_col == second_col
   end
 
   def column_empty?(first_coord, second_coord)
-    first_letter = first_coord[0]
-    second_letter = second_coord[0]
-    col = first_coord[1].to_i - 1
-    first_row = ROWS[first_letter]
-    second_row = ROWS[second_letter]
+    first_row, first_col = convert_coordinate_to_indices(first_coord)
+    second_row, second_col = convert_coordinate_to_indices(second_coord)
     if second_row > first_row
-      iterate_through_line(first_row, second_row, col, "col")
+      iterate_through_line(first_row, second_row, first_col, "col")
     elsif first_row > second_row
-      iterate_through_line(second_row, first_row, col, "col")
+      iterate_through_line(second_row, first_row, first_col, "col")
     end
   end
 
   def row_empty?(first_coord, second_coord)
-    letter = first_coord[0]
-    first_col = first_coord[1].to_i - 1
-    second_col = second_coord[1].to_i - 1
-    row = ROWS[letter]
+    first_row, first_col = convert_coordinate_to_indices(first_coord)
+    second_row, second_col = convert_coordinate_to_indices(second_coord)
     if second_col > first_col
-      iterate_through_line(first_col, second_col, row, "row")
+      iterate_through_line(first_col, second_col, first_row, "row")
     elsif first_col > second_col
-      iterate_through_line(second_col, first_col, row, "row")
+      iterate_through_line(second_col, first_col, first_row, "row")
     end
   end
 

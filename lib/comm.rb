@@ -132,6 +132,8 @@ module Communication
     (size + 1).times do |num|
       if num == 0
         print ".   "
+      elsif num > 9
+        print "#{num}   "
       else
         print "#{num}    "
       end

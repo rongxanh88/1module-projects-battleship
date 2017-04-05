@@ -1,5 +1,4 @@
 require './lib/constants'
-
 module Navigation
   include Constants
 
@@ -12,7 +11,11 @@ module Navigation
   def convert_coordinate_to_indices(coordinate)
     split_coordinate = coordinate.split("")
     row_index = ROWS[split_coordinate.first]
-    col_index = split_coordinate[1...split_coordinate.size].join.to_i - 1
+    if split_coordinate.size < 3
+      col_index = split_coordinate.last.to_i - 1
+    else
+      col_index = split_coordinate[1..2].join.to_i - 1
+    end
     return row_index, col_index
   end
 

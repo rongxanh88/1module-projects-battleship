@@ -3,6 +3,7 @@ require './lib/comm'
 require './lib/validate'
 require './lib/constants'
 require './lib/board_navigation'
+require 'pry'
 
 class ShipPlacement
   include Communication, Constants, Navigation
