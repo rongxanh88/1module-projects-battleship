@@ -3,7 +3,6 @@ require './lib/constants'
 require './lib/validate'
 require './lib/board_navigation'
 require './lib/board'
-require 'pry'
 
 class Game
   include Communication, Constants, Navigation

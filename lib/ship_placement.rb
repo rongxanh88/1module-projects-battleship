@@ -3,7 +3,6 @@ require './lib/comm'
 require './lib/validate'
 require './lib/constants'
 require './lib/board_navigation'
-require 'pry'
 
 class ShipPlacement
   include Communication, Constants, Navigation
@@ -57,8 +56,8 @@ class ShipPlacement
     return false unless validator.validate(start)
     return false unless validator.validate(last)
     return false unless validator.validate_in_line(coordinates)
-    return false unless validator.validate_all_empty(coordinates)
     return false unless validator.validate_length(coordinates, ship_length)
+    return false unless validator.validate_all_empty(coordinates)
     return true
   end
 end
